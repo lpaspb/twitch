@@ -112,7 +112,7 @@ gulp.task('img', function() {
 gulp.task('watch', ['browser-sync', 'sass', 'scripts', 'css-libs'], function() {
     
     gulp.watch('app/sass/**/*.scss',['sass']);
-    gulp.watch('app/*.html',browserSync.reload);
+    gulp.watch('.html',browserSync.reload);
     gulp.watch('app/js/**/*.js',browserSync.reload);
     
 });
