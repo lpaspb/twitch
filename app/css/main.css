@@ -1,0 +1,44 @@
+body {
+  background-image: url("http://www.utdallas.edu/~amg111000/YLSC/images/citybg.jpg");
+  background-repeat: no-repeat;
+  background-size: cover; }
+
+.weather {
+  margin: 0 auto;
+  margin-top: 200px;
+  width: 50%;
+  text-align: center; }
+  .weather__icon {
+    width: 50px;
+    height: 50px;
+    background-repeat: no-repeat;
+    background-size: 50px;
+    background-position: 0px 10px;
+    display: inline-block;
+    margin-left: 25px; }
+  .weather__btn {
+    text-decoration: none;
+    background-color: cornflowerblue;
+    padding: 5px;
+    color: white;
+    -webkit-border-radius: 3px;
+            border-radius: 3px;
+    font-family: 'Open Sans', sans-serif; }
+  .weather__group--btn {
+    margin-top: 30px;
+    margin-bottom: 20px; }
+  .weather__city {
+    color: white;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 24px;
+    letter-spacing: 0.7px; }
+  .weather__temp {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+    color: white;
+    font-size: 48px;
+    display: inline-block;
+    margin-bottom: 0; }
+  .weather__date {
+    font-family: 'Open Sans', sans-serif;
+    color: white; }
