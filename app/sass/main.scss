@@ -33,6 +33,16 @@ body {
         border-radius: 3px;
         font-family: 'Open Sans', sans-serif;
     }
+    &__btn--celsius{
+        margin-right: 20px;
+        padding: 5px;
+
+    }
+     &__btn--farengheit{
+        padding: 5px;
+
+        
+    }
     
     &__group--btn {
        
@@ -61,3 +71,12 @@ body {
     }
 }
 
+.info {
+    color: white;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 36px;
+    margin:  0 auto;
+    width: 50%;
+    text-align: center;
+    margin-top:300px;
+}

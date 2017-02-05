@@ -58,8 +58,9 @@ $( document ).ready(function() {
         $('.weather__date').html(date);
         $('.weather__temp').html(celsius + "˚C");
         $('.weather__icon').css('background-image','url("' + url + png + ' ")');
-        
-    
+        $('.weather__group--btn').append('<a class="weather__btn weather__btn--celsius" href="#">˚C</a>');
+        $('.weather__group--btn').append('<a class="weather__btn weather__btn--farengheit" href="#">˚F</a>');
+        $( ".info" ).remove();
         });
         
         
@@ -67,8 +68,7 @@ $( document ).ready(function() {
     
     }
     
-    $('.weather__btn--farengheit').click(function(){
-             
+    $(document).on('click','.weather__btn--farengheit', function(){
              var str = farengheit + "˚F"
              str = str.replace(/\" "/g, "");
              $('.weather__temp').html(str);
@@ -76,7 +76,7 @@ $( document ).ready(function() {
              
          }); 
         
-    $('.weather__btn--celsius').click(function(){
+   $(document).on('click','.weather__btn--celsius', function(){
              
              var str = celsius + "˚C";
              $('.weather__temp').html(str);
