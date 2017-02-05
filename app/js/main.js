@@ -7,7 +7,7 @@ var celsius;
 var farengheit;
 
 var apiKey = '3d6ea7e572d48a4286db05fd9da78c91';
-var apiSource = '//api.openweathermap.org/data/2.5/weather?';
+var apiSource = 'api.openweathermap.org/data/2.5/weather?';
 
 
 $( document ).ready(function() {
