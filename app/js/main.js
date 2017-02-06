@@ -10,6 +10,27 @@ var apiKey = '3d6ea7e572d48a4286db05fd9da78c91';
 var apiSource = 'https://cors.now.sh/http://api.openweathermap.org/data/2.5/weather?';
 
 
+function formattedDate (){
+     var monthNames = [
+                        "January", "February", "March",
+                        "April", "May", "June", "July",
+                        "August", "September", "October",
+                        "November", "December"
+                            ];
+
+        var date = new Date();
+        var day = date.getDate();
+        var monthIndex = date.getMonth();
+        var year = date.getFullYear();
+
+        var date = day + ' ' + monthNames[monthIndex] + ' ' + year;
+    
+        return date;
+}
+
+
+
+
 $( document ).ready(function() {
     
     
@@ -38,21 +59,9 @@ $( document ).ready(function() {
                 city = data.name + ',' + ' ' + data.sys.country;
             }
             
-            
-        var monthNames = [
-                        "January", "February", "March",
-                        "April", "May", "June", "July",
-                        "August", "September", "October",
-                        "November", "December"
-                            ];
-
-        var date = new Date();
-        var day = date.getDate();
-        var monthIndex = date.getMonth();
-        var year = date.getFullYear();
-
-        var date = day + ' ' + monthNames[monthIndex] + ' ' + year;
-        var url = "http://openweathermap.org/img/w/" + icon;
+        var date = formattedDate(); 
+       
+        var url = "https://cors.now.sh/http://openweathermap.org/img/w/" + icon;
         var png = ".png"
         $('.weather__city').html(city);
         $('.weather__date').html(date);
