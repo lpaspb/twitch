@@ -61,7 +61,7 @@ $( document ).ready(function() {
             
         var date = formattedDate(); 
        
-        var url = "https://cors.now.sh/http://openweathermap.org/img/w/" + icon;
+        var url = "http://openweathermap.org/img/w/" + icon;
         var png = ".png"
         $('.weather__city').html(city);
         $('.weather__date').html(date);
