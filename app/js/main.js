@@ -12,6 +12,13 @@ window.onload = function() {
         loadAjax("//en.wikipedia.org/w/api.php?origin=*&action=query&format=json&list=search&srprop=snippet&srsearch=");
 
     }, false);
+    document.addEventListener('keydown', function (event) {
+ 
+  if (event.which === 13) {
+   event.preventDefault();
+    loadAjax("//en.wikipedia.org/w/api.php?origin=*&action=query&format=json&list=search&srprop=snippet&srsearch=");
+  }
+});
 
     btn2.addEventListener('click', function() {
 
@@ -21,7 +28,6 @@ window.onload = function() {
 
 
 }
-
 
 function resetContent() {
 
@@ -40,7 +46,7 @@ function addElementInBlock (elementInner, eltag, blockID) {
 
 function formattedURL (url) {                           
         
-        var inputValue = document.querySelector("input[type=search]").value;
+        var inputValue = document.querySelector(".header__search").value;
         var queryTitle = inputValue;
         
     
@@ -72,7 +78,7 @@ function loadAjax(url) {
 
     resetContent();
 
-    var inputValue = document.querySelector("input[type=search]").value;
+    var inputValue = document.querySelector(".header__search").value;
     
     url = formattedURL(url);
     
