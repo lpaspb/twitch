@@ -1,103 +1,189 @@
 
-var longitude;
-var latitude;
 
-var temp;
-var celsius;
-var farengheit;
+window.onload = function() {
 
-var apiKey = '3d6ea7e572d48a4286db05fd9da78c91';
-var apiSource = 'https://cors.now.sh/http://api.openweathermap.org/data/2.5/weather?';
+var btn = document.querySelector("#btn");
+var btn2 = document.querySelector("#btn2");
 
+ loadRandom();
 
-function formattedDate (){
-     var monthNames = [
-                        "January", "February", "March",
-                        "April", "May", "June", "July",
-                        "August", "September", "October",
-                        "November", "December"
-                            ];
-
-        var date = new Date();
-        var day = date.getDate();
-        var monthIndex = date.getMonth();
-        var year = date.getFullYear();
-
-        var date = day + ' ' + monthNames[monthIndex] + ' ' + year;
+btn.addEventListener('click', function(){
+  
+    loadAjax("//en.wikipedia.org/w/api.php?origin=*&action=query&format=json&list=search&srprop=snippet&srsearch=");
     
-        return date;
+    }, false);
+    
+btn2.addEventListener('click', function(){
+  
+     loadRandom();
+
+    }, false);
+
+
+}
+
+
+function resetContent() {
+
+var wiki = document.querySelector("#wiki");
+
+wiki.innerHTML = '';
+
 }
 
 
 
 
-$( document ).ready(function() {
-    
-    
-    if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function(position){
-        
-        longitude =  position.coords.longitude;
-        latitude  =  position.coords.latitude;
-   
-        $.getJSON(apiSource, {
-            "lat" : latitude,
-            "lon" : longitude,
-            "appid" : apiKey
-        },
-        function(data){
-    
-        temp = data.main.temp;
-        celsius = Math.round(temp - 273);
-        farengheit = Math.round(celsius * 9/5 + 32);
-        var icon = data.weather[0].icon;  
-            
-        var city;
-             if ((latitude >= 59.01 && latitude <= 59.99) && (longitude >= 30.01  && longitude <= 30.99) ) {
-                 city = "Saint-Petersburg, RU";
-            } else {
-                city = data.name + ',' + ' ' + data.sys.country;
-            }
-            
-        var date = formattedDate(); 
-       
-        var url = "http://openweathermap.org/img/w/" + icon;
-        var png = ".png"
-        $('.weather__city').html(city);
-        $('.weather__date').html(date);
-        $('.weather__temp').html(celsius + "˚C");
-        $('.weather__icon').css('background-image','url("' + url + png + ' ")');
-        $('.weather__group--btn').append('<a class="weather__btn weather__btn--farengheit" href="#">Farengheit</a>');
-        $( ".info" ).remove();
-        });
-        
-        
-    }, function(error) {
-        $('.info').html(error.message);
-    });
-    
-    } 
-    $(document).on('click','.weather__btn--farengheit', function(){
-             var str = farengheit + "˚F"
-             str = str.replace(/\" "/g, "");
-             $('.weather__temp').html(str);
-             $( ".weather__btn--farengheit" ).remove();
-             $('.weather__group--btn').append('<a class="weather__btn weather__btn--celsius" href="#">Celsius</a>');
-             
-             
-         }); 
-        
-   $(document).on('click','.weather__btn--celsius', function(){
-             
-             var str = celsius + "˚C";
-             $('.weather__temp').html(str);
-             $( ".weather__btn--celsius" ).remove();
-             $('.weather__group--btn').append('<a class="weather__btn weather__btn--farengheit" href="#">Farengheit</a>');
-             
-             
-         }); 
-    
+function loadAjax (url) {
 
-});
+resetContent();
+
+
+    
+var inputValue = document.querySelector("input[type=search]").value;
+var url;
+var xhr = new XMLHttpRequest;
+var title = inputValue; 
+
+var ua = navigator.userAgent.toLowerCase(); 
+if (ua.indexOf('safari') != -1) { 
+  if (ua.indexOf('chrome') > -1) {
+   url = url + title;
+  } else {
+  url = "https://cors.now.sh/" + url + title;
+  }
+}
+    
+xhr.open('GET', url, true);
+
+xhr.onreadystatechange = function() {
+
+    var response = xhr.responseText;
+    if (response) {
+    var json = JSON.parse(response);
+    }
+    
+    
+    if (response != "" && xhr.readyState == 4) {
      
+     var inputValue = document.querySelector("input[type=search]").value;
+      
+     if (inputValue != "")   {     
+        
+        var feedArr = json.query.search;
+        
+     }
+        
+        console.log(inputValue)
+         
+        if (inputValue != "")   {  
+          
+             for (var i = 0; i < feedArr.length; i++){
+           
+                
+               var title = "<p><a href='http://en.wikipedia.org/wiki/" + 
+                   
+                json.query.search[i].title + "'> <strong id='title'>" + 
+                   
+                json.query.search[i].title +  "</strong></a></p>";
+                
+                
+                var desc = "<p id='desc'>" + json.query.search[i].snippet +  "</p>";
 
+                var element = document.createElement("div");
+
+                element.innerHTML = title + "\n" + desc;
+
+
+                my_div = document.getElementById("wiki");
+
+                my_div.appendChild(element);
+
+              
+           }
+        }
+        
+        
+            else   {
+    
+               var element = document.createElement("p");
+
+               element.innerHTML = "No Articles";
+
+               my_div = document.getElementById("wiki");
+
+               my_div.appendChild(element);
+
+        
+    
+}
+          
+       
+        
+    } 
+        
+    
+  
+}
+
+
+
+xhr.send();
+
+
+}
+
+
+
+
+function loadRandom () {
+   
+    resetContent();
+
+    var url;
+    var ua = navigator.userAgent.toLowerCase(); 
+
+    if (ua.indexOf('safari') != -1) { 
+  if (ua.indexOf('chrome') > -1) {
+   
+  url = "//en.wikipedia.org/w/api.php?origin=*&action=query&format=json&list=random&rnlimit=5";;
+  } else {
+  url = "https://cors.now.sh/" + "//en.wikipedia.org/w/api.php?origin=*&action=query&format=json&list=random&rnlimit=5";;
+  }
+}
+    
+    
+    var xhr = new XMLHttpRequest;
+    
+    xhr.open('GET', url);
+   
+    xhr.onreadystatechange = function() {
+        
+           var response = xhr.responseText;
+            
+            if (response) {
+            
+            var json = JSON.parse(response);
+            
+            console.log(json);
+               
+            var randArray = json.query.random;
+            
+            var title  = "http://en.wikipedia.org/wiki/" + 
+                   
+             json.query.random[0].title;
+                
+             document.querySelector("#btn2").setAttribute("href", title)  ; 
+                
+            
+        }
+            
+            
+    }
+        
+    
+    
+    
+    xhr.send();
+    
+}
