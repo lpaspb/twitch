@@ -10,6 +10,8 @@ window.onload = function() {
     btn.addEventListener('click', function() {
 
         loadAjax("//en.wikipedia.org/w/api.php?origin=*&action=query&format=json&list=search&srprop=snippet&srsearch=");
+        
+        document.querySelector(".header").style.paddingBottom = "30px";
 
     }, false);
     document.addEventListener('keydown', function (event) {
