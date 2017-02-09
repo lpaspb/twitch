@@ -86,13 +86,17 @@ body {
   -webkit-border-radius: 3px;
           border-radius: 3px; }
 
+.wiki > p p:last-child {
+  margin: 0; }
+
 .wiki > p:first-child {
   margin-top: 50px; }
 
 .wiki a {
   -webkit-text-decoration-style: dotted;
           text-decoration-style: dotted;
-  color: black; }
+  color: #3366CC;
+  text-decoration: none; }
 
 .btn {
   display: inline-block;
