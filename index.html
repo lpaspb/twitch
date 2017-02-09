@@ -1,32 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Wiki</title>
+<title>Twitch</title>
 <link rel="stylesheet" type="text/css" href="app/css/main.css">
-<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
 </head>
 <script src="app/js/main.js"></script>
 
 
 <body>
-
-<header class="header">
-    <div class="header__logo"></div>
-    <div class="header__container">
-         <form id="form" class="header__form">
-           <div class="icon"></div><input class="header__search" type="text" name="search_field" >
-        </form> 
-        <div class="header__btn-group">
-            <a href="#" class="btn header__search-btn " id="btn">Search</a>
-            <a href="#" id="btn2" class="btn header__random-btn">Random</a>
-        </div>
-    </div>
-</header>   
+<div class="twitch__logo"></div>
     
- <div class="wiki" id="wiki">
+<div class="twitch">
 
+<div class="twitch__btn-group">
+<a href="#" class="twitch__online btn"><div class="triangle"></div>Online</a>
+<a href="#" class="twitch__offline btn">Offline</a>
+<a href="#" class="twitch__all btn">All</a>
 </div>
+
+<table class="twitch__offline-output"></table>
+<table class="twitch__online-output"></table>
+
+   
+</div>
+
 
 </body>
 

@@ -1,159 +1,120 @@
 var corsURL = "https://cors.now.sh/";
 
-window.onload = function() {
+$(function() {
 
-    var btn = document.querySelector("#btn");
-    var btn2 = document.querySelector("#btn2");
+    load();
+    var offlineBtn = $(".twitch__offline");
+    var allBtn = $(".twitch__all");
+    var onlineBtn = $(".twitch__online");
+    var offlineBlock = $(".twitch__offline-output");
+    var onlineBlock = $(".twitch__online-output");
+    var allBlock = $(".twitch__all-output");
 
-    loadRandom();
+    allBtn.on('click', function() {
 
-    btn.addEventListener('click', function() {
+       onlineBlock.css("display", "block");
+        offlineBlock.css("display", "block");
+       
 
-        loadAjax("//en.wikipedia.org/w/api.php?origin=*&action=query&format=json&list=search&srprop=snippet&srsearch=");
+    });
+    
+    
+    offlineBtn.on('click', function() {
         
-        document.querySelector(".header").style.paddingBottom = "30px";
+       
+        onlineBlock.css("display", "none");
+        offlineBlock.css("display", "block");
 
-    }, false);
-    document.addEventListener('keydown', function (event) {
- 
-  if (event.which === 13) {
-   event.preventDefault();
-    loadAjax("//en.wikipedia.org/w/api.php?origin=*&action=query&format=json&list=search&srprop=snippet&srsearch=");
-  }
+    });
+
+    onlineBtn.on('click', function() {
+        
+        offlineBlock.css("display", "none");
+        onlineBlock.css("display", "block");
+
+    });
+
 });
 
-    btn2.addEventListener('click', function() {
 
-        loadRandom();
+function load(isOnline) {
 
-    }, false);
+    var name;
+    var link;
+    var icon;
+    var index = 0;
+    var streams = ["ESL_SC2", "OgamingSC2", "cretetion", "freecodecamp", "storbeck", "habathcx", "RobotCaleb", "noobs2ninjas", "brunofin"];
 
+    var url = "//wind-bow.gomix.me/twitch-api/streams/";
+    var obj;
+    for (var i = 0; i < streams.length; i++) {
+        
+        $.ajax({
+            url: url + streams[i],
+            type: 'GET',
+            dataType: 'jsonp',
+            data: {
+                format: 'json'
+            },
+            success: function(data) {
 
-}
-
-function resetContent() {
-
-    var wiki = document.querySelector("#wiki");
-
-    wiki.innerHTML = '';
-}
-
-function addElementInBlock (elementInner, eltag, blockID) {
+                if (data.stream === null) {
+                    index++;
+                    var str = streams[index + 1];
+                    $.getJSON("//wind-bow.gomix.me/twitch-api/channels/" + str, function(data) {
                         
-    var element = document.createElement(eltag);
-    element.innerHTML = elementInner; 
-    var block = document.getElementById(blockID);
-    block.appendChild(element);
- }
+                        if (data.status == 404) {
+                            
+                            icon = "http://assets.bizjournals.com/lib/img/newsle-empty-icon.png";
+                            var offline = $(".twitch__offline-output");
+                            offline.append("<tr><td class='twitch__name'><img src='" + icon + "'>" + "<a href='" + link + "'>" + str + "<span span class='notex'> </span> </td></tr>");
+                            
 
-function formattedURL (url) {                           
-        
-        var inputValue = document.querySelector(".header__search").value;
-        var queryTitle = inputValue;
-        
-    
-        var formattedURL = url;
-        var userAgent = navigator.userAgent.toLowerCase();
-        
-        if (userAgent.indexOf('safari') != -1 && formattedURL.indexOf("random") == -1) {
-            if (userAgent.indexOf('chrome') > -1) {
-                 formattedURL = formattedURL + queryTitle;
-                 return formattedURL;
-            } else {
-                formattedURL = corsURL + formattedURL + queryTitle;
-                return formattedURL;
-            }
-        } else {
-            if (userAgent.indexOf('chrome') > -1) {
-                 formattedURL = formattedURL;
-                 return formattedURL;
-            } else {
-                formattedURL = corsURL + formattedURL;
-                return formattedURL;
-            }
-            
-        }
-    }
+                        } else {
 
+                            var offline = $(".twitch__offline-output");
+                           
+                             console.log(data);
+                            name = data.display_name;
+                            link = data.url;
+                            status = data.status;
+                            icon = data.profile_banner;
+                            
+                            if (icon == null) {
+                                icon = "http://assets.bizjournals.com/lib/img/newsle-empty-icon.png"
+                            }
+                            
+                            if (status == null) {
+                                status = "";
+                            }
+                            offline.append("<tr><td class='twitch__name'><img src='" + icon + "'>" + "<a href='" + link + "'>" + name + "<span class='offline'></span> </td><td class='twitch__game'>" + status + "</td></tr>");
+                        }
+                    });
 
-function loadAjax(url) {
-
-    resetContent();
-
-    var inputValue = document.querySelector(".header__search").value;
-    
-    url = formattedURL(url);
-    
-    var xhr = new XMLHttpRequest;
-    
-    xhr.open('GET', url, true);
-
-    xhr.onreadystatechange = function() {
-
-        var response = xhr.responseText;
-        
-        if (response != "" && xhr.readyState == 4) {
-            
-            var json = JSON.parse(response);
-
-            if (inputValue != "") {
-
-                var feedArr = json.query.search;
-
-                for (var i = 0; i < feedArr.length; i++) {
-                    
-                    var title = "<p><a href='http://en.wikipedia.org/wiki/" +
-
-                        json.query.search[i].title + "'> <strong id='title'>" +
-
-                        json.query.search[i].title + "</strong></a></p>";
-
-                    var desc = "<p id='desc'>" + json.query.search[i].snippet + "</p>";
-
-                    addElementInBlock (title + "\n" + desc, "p", "wiki");
+                } else if (data.stream != null) {
+                   
+                    var online = $(".twitch__online-output");
+                    name = data.stream.channel.display_name;
+                    var game = data.stream.channel.game;
+                    link = data.stream.channel.url;
+                    icon = data.stream.preview.small;
+                    online.append("<tr><td class='twitch__name'><img src='" + icon + "'>" + "<a href='" + link + "'>" + name + "<span class='online'></span> </a> </td>  <td class='twitch__game'>" + game + "</td>");
+                    console.log(data);
 
                 }
-            } else {
-                
-                addElementInBlock ("No Articles", "p", "wiki");
-
+                 
+            },
+            error: function(error) {
+                console.log(error);
+          
+            
             }
-        }
+          
+        });
+
+
+
     }
 
-    xhr.send();
-}
 
-
-
-function loadRandom() {
-
-    resetContent();
-
-    var apiURL = "//en.wikipedia.org/w/api.php?origin=*&action=query&format=json&list=random&rnlimit=5";
-    
-    formattedURL(apiURL)
-
-    var xhr = new XMLHttpRequest;
-
-    xhr.open('GET', corsURL + apiURL);
-
-    xhr.onreadystatechange = function() {
-
-        var response = xhr.responseText;
-
-        if (response) {
-
-            var json = JSON.parse(response);
-
-            var randArray = json.query.random;
-
-            var title = "http://en.wikipedia.org/wiki/" +
-            json.query.random[0].title;
-
-            document.querySelector("#btn2").setAttribute("href", title);
-        }
-    }
-
-    xhr.send();
 }

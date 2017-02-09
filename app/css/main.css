@@ -1,118 +1,105 @@
 body {
-  margin: 0;
-  padding: 0;
-  background-color: #F5F5F5; }
+  background-color: #FAFAFA; }
 
-.header {
-  background-color: white;
-  padding: 50px 0;
-  padding-bottom: 338px; }
-  .header__logo {
-    background-image: url(https://upload.wikimedia.org/wikipedia/foundation/2/20/Wikipedia-logo-v2-en_SVG.svg);
-    width: 250px;
-    height: 250px;
-    margin: 0 auto;
-    background-size: 220px 220px;
-    background-position: center;
-    background-repeat: no-repeat;
-    margin-bottom: 10px;
-    margin-top: 10px; }
-  .header__container {
-    margin: 0 auto;
-    width: 90%; }
-  .header__form {
-    width: 350px;
-    position: relative;
-    text-align: center;
-    margin: 0 auto; }
-  .header__search {
-    background-color: white;
-    color: #34495e;
-    margin: 0 auto;
-    margin-top: 50px;
-    padding: 12px;
-    width: 300px;
-    font-family: 'Open Sans';
-    font-weight: 400;
-    font-size: 14px;
-    letter-spacing: 0.7px;
-    text-indent: 30px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    -webkit-border-radius: 3px;
-            border-radius: 3px; }
-  .header__search:focus {
-    outline: none;
-    border: 1px solid #3366CC; }
-  .header__btn-group {
-    margin: 0 auto;
-    width: 90%;
-    text-align: center;
-    font-size: 14px;
-    margin-top: 15px; }
+a {
+  display: block; }
 
-.icon {
-  background-image: url(http://www.clker.com/cliparts/w/r/Q/0/x/D/search-icon-light-grey.svg);
-  background-position: 9px;
-  background-size: 23px;
-  background-repeat: no-repeat;
-  position: absolute;
-  left: 13px;
-  top: 60px;
+.twitch {
+  margin: 0 auto;
+  width: 520px;
+  font-family: 'Open Sans';
+  background-color: white; }
+
+.twitch__logo {
+  background-image: url(http://vignette4.wikia.nocookie.net/logopedia/images/2/26/Twitch_logo.svg/revision/latest?cb=20140727180649);
+  height: 100px;
+  width: 300px;
+  background-size: cover;
+  margin: 0 auto;
+  margin-bottom: 30px;
+  margin-top: 30px; }
+
+.twitch a {
+  text-decoration: none;
+  color: black; }
+
+.twitch__online-output td {
+  padding: 30px;
+  border-spacing: 7px 11px;
+  position: relative; }
+
+.twitch__offline-output td {
+  padding: 30px;
+  position: relative; }
+
+span {
+  display: block; }
+
+.online {
+  width: 5px;
+  height: 5px;
+  background-color: green;
   -webkit-border-radius: 50%;
           border-radius: 50%;
-  padding: 15px; }
+  position: absolute;
+  top: 50px;
+  left: 5px; }
 
-.wiki {
-  margin: 0 auto;
-  width: 65%;
-  text-align: center; }
+.offline {
+  width: 5px;
+  height: 5px;
+  background-color: red;
+  -webkit-border-radius: 50%;
+          border-radius: 50%;
+  position: absolute;
+  top: 50px;
+  left: 5px; }
 
-.wiki p {
-  font-family: 'Open Sans';
-  margin: 0 auto;
-  padding: 15px;
-  font-size: 14px;
-  text-align: left;
-  line-height: 24px;
-  background-color: white;
-  margin-top: 15px;
-  color: #34495e; }
+.notex {
+  width: 5px;
+  height: 5px;
+  background-color: grey;
+  -webkit-border-radius: 50%;
+          border-radius: 50%;
+  position: absolute;
+  top: 50px;
+  left: 5px; }
 
-.wiki > p {
-  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.17);
-          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.17);
-  -webkit-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  -webkit-border-radius: 3px;
-          border-radius: 3px; }
+.twitch__btn-group {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  background-color: #6441A5;
+  -webkit-border-radius: 2px;
+          border-radius: 2px; }
 
-.wiki > p p:last-child {
-  margin: 0; }
-
-.wiki > p:first-child {
-  margin-top: 50px; }
-
-.wiki a {
-  -webkit-text-decoration-style: dotted;
-          text-decoration-style: dotted;
-  color: #3366CC;
-  text-decoration: none; }
+.twitch__btn-group a {
+  color: white; }
 
 .btn {
-  display: inline-block;
-  -webkit-box-sizing: content-box;
-  box-sizing: content-box;
-  margin: 0.5em;
-  padding: 0 1.5em;
-  border: 1px solid rgba(211, 211, 211, 0.1);
-  -webkit-border-radius: 0.2em;
-  border-radius: 0.2em;
-  font: normal normal bold 1em/2em Arial,Helvetica,sans-serif;
-  color: #727272;
-  text-overflow: clip;
-  white-space: nowrap;
-  background: #f1f1f1;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
-  -webkit-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1) 10ms;
-  transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1) 10ms;
-  text-decoration: none; }
+  display: block;
+  letter-spacing: 0.7px;
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 14px;
+  margin-right: 40px; }
+
+.btn:nth-child(1) {
+  margin-left: 20px; }
+
+.triangle {
+  position: absolute; }
+
+img {
+  width: 30px;
+  height: 30px;
+  margin-left: 10px;
+  margin-right: 10px;
+  -webkit-border-radius: 50%;
+          border-radius: 50%; }
