@@ -42,12 +42,12 @@ function load(isOnline) {
     var name;
     var link;
     var icon;
-    var index = 0;
+    
     var streams = ["ESL_SC2", "OgamingSC2", "cretetion", "freecodecamp", "storbeck", "habathcx", "RobotCaleb", "noobs2ninjas", "brunofin"];
 
     var url = "//wind-bow.gomix.me/twitch-api/streams/";
-    var obj;
-    for (var i = 0; i < streams.length; i++) {
+   
+    streams.forEach(function(val, i) { 
         
         $.ajax({
             url: url + streams[i],
@@ -59,15 +59,15 @@ function load(isOnline) {
             success: function(data) {
 
                 if (data.stream === null) {
-                    index++;
-                    var str = streams[index + 1];
-                    $.getJSON("//wind-bow.gomix.me/twitch-api/channels/" + str, function(data) {
-                        
+                   
+                    $.getJSON("//wind-bow.gomix.me/twitch-api/channels/" + val, function(data) {
+                       
+                         console.log(val);
                         if (data.status == 404) {
                             
                             icon = "http://assets.bizjournals.com/lib/img/newsle-empty-icon.png";
                             var offline = $(".twitch__offline-output");
-                            offline.append("<tr><td class='twitch__name'><img src='" + icon + "'>" + "<a href='" + link + "'>" + str + "<span span class='notex'> </span> </td></tr>");
+                            offline.append("<tr><td class='twitch__name'><img src='" + icon + "'>" + "<a href='" + link + "'>" + val + "<span span class='notex'> </span> </td></tr>");
                             
 
                         } else {
@@ -112,9 +112,8 @@ function load(isOnline) {
           
         });
 
-
+});
 
     }
 
 
-}
