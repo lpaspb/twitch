@@ -1,34 +1,37 @@
-var corsURL = "https://cors.now.sh/";
+/*jslint browser: true*/
+/*global $, jQuery, alert*/
 
-$(function() {
+
+$(function () {
 
     load();
-    var offlineBtn = $(".twitch__offline");
-    var allBtn = $(".twitch__all");
-    var onlineBtn = $(".twitch__online");
-    var offlineBlock = $(".twitch__offline-output");
-    var onlineBlock = $(".twitch__online-output");
-    var allBlock = $(".twitch__all-output");
+    
+    var offlineBtn = $(".twitch__offline"),
+        allBtn = $(".twitch__all"),
+        onlineBtn = $(".twitch__online"),
+        offlineBlock = $(".twitch__offline-output"),
+        onlineBlock = $(".twitch__online-output");
+    
 
-    allBtn.on('click', function() {
+    allBtn.on('click', function () {
 
-       onlineBlock.css("display", "block");
+        onlineBlock.css("display", "block");
         offlineBlock.css("display", "block");
-       
+
 
     });
-    
-    
-    offlineBtn.on('click', function() {
-        
-       
+
+
+    offlineBtn.on('click', function () {
+
+
         onlineBlock.css("display", "none");
         offlineBlock.css("display", "block");
 
     });
 
-    onlineBtn.on('click', function() {
-        
+    onlineBtn.on('click', function () {
+
         offlineBlock.css("display", "none");
         onlineBlock.css("display", "block");
 
@@ -39,81 +42,106 @@ $(function() {
 
 function load(isOnline) {
 
-    var name;
-    var link;
-    var icon;
-    
-    var streams = ["ESL_SC2", "OgamingSC2", "cretetion", "freecodecamp", "storbeck", "habathcx", "RobotCaleb", "noobs2ninjas", "brunofin"];
+    var name,
+        status,
+        link,
+        icon,
+        streams = ["ESL_SC2", "OgamingSC2", "cretetion", "freecodecamp", "storbeck", "habathcx", "RobotCaleb", "noobs2ninjas", "brunofin"];
 
-    var url = "//wind-bow.gomix.me/twitch-api/streams/";
-   
-    streams.forEach(function(val, i) { 
-        
+    
+    streams.forEach(function (val, i) {
+
         $.ajax({
-            url: url + streams[i],
+            url: "//wind-bow.gomix.me/twitch-api/streams/" + val,
             type: 'GET',
             dataType: 'jsonp',
             data: {
                 format: 'json'
             },
-            success: function(data) {
+            success: function (data) {
 
+                
                 if (data.stream === null) {
-                   
-                    $.getJSON("//wind-bow.gomix.me/twitch-api/channels/" + val, function(data) {
-                       
-                         console.log(val);
-                        if (data.status == 404) {
-                            
-                            icon = "http://assets.bizjournals.com/lib/img/newsle-empty-icon.png";
-                            var offline = $(".twitch__offline-output");
-                            offline.append("<tr><td class='twitch__name'><img src='" + icon + "'>" + "<a href='" + link + "'>" + val + "<span span class='notex'> </span> </td></tr>");
-                            
 
-                        } else {
+                    $.ajax({
+                        url: "//wind-bow.gomix.me/twitch-api/channels/" + val,
+                        type: 'GET',
+                        dataType: 'jsonp',
+                        data: {
+                            format: 'json'
+                        },
+                        success: function (data) {
 
                             var offline = $(".twitch__offline-output");
-                           
-                             console.log(data);
+
                             name = data.display_name;
+                            status = "";
                             link = data.url;
-                            status = data.status;
-                            icon = data.profile_banner;
-                            
-                            if (icon == null) {
-                                icon = "http://assets.bizjournals.com/lib/img/newsle-empty-icon.png"
+                            icon = data.logo;
+
+                            if (icon === undefined) {
+                                icon = "http://assets.bizjournals.com/lib/img/newsle-empty-icon.png";
                             }
-                            
-                            if (status == null) {
+                            if (status === undefined) {
                                 status = "";
                             }
-                            offline.append("<tr><td class='twitch__name'><img src='" + icon + "'>" + "<a href='" + link + "'>" + name + "<span class='offline'></span> </td><td class='twitch__game'>" + status + "</td></tr>");
+
+                            if (data.status === 404) {
+                                status = "user does not exsist";
+                                offline.append("<tr><td><span class='notex'></span></td><td><img src='" + icon + "'></td><td class='twitch__name'><a href='" + link + "'>" + name + " </td>" + "<td class='twitch__game'>" + status + "</td></tr>");
+                            } else {
+                            
+                                offline.append("<tr><td><span class='offline'></span></td><td><img src='" + icon + "'></td><td class='twitch__name'><a href='" + link + "'>" + name + " </td>" + "<td class='twitch__game'>" + status + "</td></tr>");
+                            
+                            }
+
+                        },
+                        error: function (error) {
+                            var offline = $(".twitch__offline-output");
+                            offline.append("<p>error</p>");
+                        }
+                    });
+                } else if (data.stream !== null) {
+
+                    $.ajax({
+                        url: "//wind-bow.gomix.me/twitch-api/channels/" + val,
+                        type: 'GET',
+                        dataType: 'jsonp',
+                        data: {
+                            format: 'json'
+                        },
+                        success: function (data) {
+
+                            var online = $(".twitch__online-output");
+
+                            name = data.display_name;
+                            status = data.status;
+                            link = data.link;
+                            icon = data.logo;
+
+
+
+                            online.append("<tr><td><span class='online'></span></td><td><img src='" + icon + "'></td><td class='twitch__name'><a href='" + link + "'>" + name + " </td>" + "<td class='twitch__game'>" + status + "</td></tr>");
+
+                        },
+                        error: function (error) {
+                            var online = $(".twitch__online-output");
+                            online.append("<p>error</p>");
                         }
                     });
 
-                } else if (data.stream != null) {
-                   
-                    var online = $(".twitch__online-output");
-                    name = data.stream.channel.display_name;
-                    var game = data.stream.channel.game;
-                    link = data.stream.channel.url;
-                    icon = data.stream.preview.small;
-                    online.append("<tr><td class='twitch__name'><img src='" + icon + "'>" + "<a href='" + link + "'>" + name + "<span class='online'></span> </a> </td>  <td class='twitch__game'>" + game + "</td>");
-                    console.log(data);
-
                 }
-                 
+
             },
-            error: function(error) {
-                console.log(error);
-          
-            
+            error: function (error) {
+                var online = $(".twitch__online-output");
+                online.append("<p>error</p>");
+
+
             }
-          
+
         });
 
-});
+    });
 
-    }
-
-
+}
