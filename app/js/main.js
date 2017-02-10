@@ -116,7 +116,7 @@ function load(isOnline) {
 
                             name = data.display_name;
                             status = data.status;
-                            link = data.link;
+                            link = data.url;
                             icon = data.logo;
 
 
